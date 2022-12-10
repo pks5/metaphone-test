@@ -4,6 +4,10 @@
 </head>
 
 <body>
+    <textarea id="message">
+        
+    </textarea>
+    <button id="send-btn">Send Message</button>
 
 <script>
       // The window.vuplex object gets created when the page starts loading,
@@ -23,6 +27,10 @@
           // and is emitted via the C# MessageEmitted event. This API mimics the window.postMessage API.
           window.vuplex.postMessage({ type: 'greeting', message: 'Hello from JavaScript!' });
       }
+    
+       document.getElementById("send-btn").addEventListener(() => {
+             sendMessageToCSharp()
+       });
 </script>
 </body>
 
