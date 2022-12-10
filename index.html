@@ -28,9 +28,9 @@
           window.vuplex.postMessage({ type: 'greeting', message: 'Hello from JavaScript!' });
       }
     
-       document.getElementById("send-btn").addEventListener(() => {
+       document.getElementById("send-btn").addEventListener("click", () => {
              sendMessageToCSharp()
-       }, false);
+       });
 </script>
 </body>
 
