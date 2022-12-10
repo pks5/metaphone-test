@@ -15,7 +15,7 @@
       // You can skip this step if you're sending a message after the page has loaded.
       if (window.vuplex) {
           // The window.vuplex object already exists, so go ahead and send the message.
-          sendMessageToCSharp();
+          //sendMessageToCSharp();
       } else {
           // The window.vuplex object hasn't been initialized yet because the page is still
           // loading, so add an event listener to send the message once it's initialized.
@@ -29,7 +29,12 @@
       }
     
        document.getElementById("send-btn").addEventListener("click", () => {
+           if (window.vuplex) {
              sendMessageToCSharp()
+           }
+           else{
+               console.error("vuplex bridge not available yet.");
+           }
        });
 </script>
 </body>
