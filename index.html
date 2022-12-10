@@ -30,7 +30,16 @@
           function sendMessageToCSharp() {
               // This object passed to postMessage() automatically gets serialized as JSON
               // and is emitted via the C# MessageEmitted event. This API mimics the window.postMessage API.
-              window.vuplex.postMessage({ type: 'greeting', message: 'Hello from JavaScript!' });
+              window.vuplex.postMessage({
+                  headers: {
+                    target: "" 
+                  },
+                
+                  body: {
+                    
+                  }
+                
+              });
           }
 
            document.getElementById("send-btn").addEventListener("click", () => {
