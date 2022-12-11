@@ -36,6 +36,14 @@
     <button class="btn btn-primary" id="send-btn">Send Message</button>
 
     <script>
+          function addMessageListener() {
+                window.vuplex.addEventListener('message', function(event) {
+                    let json = event.data;
+                    
+                    document.getElementById("message").value = json;
+                });
+            }
+      
           if (window.vuplex) {
               addMessageListener();
           } else {
@@ -66,13 +74,7 @@
                }
            });
             
-            function addMessageListener() {
-                window.vuplex.addEventListener('message', function(event) {
-                    let json = event.data;
-                    
-                    document.getElementById("message").value = json;
-                });
-            }
+            
     </script>
     </body>
 </html>
