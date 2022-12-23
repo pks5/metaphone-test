@@ -23,15 +23,18 @@ let fnConnect = function () {
     
 };
 
-let fhServer = 'https://my.featurehub.net';
+let fhServer = 'https://my.featurehub.net',
+    fhScriptName = "/lib/v1/feature.js";
 if (location.hostname.indexOf('.localnet') !== -1) {
     fhServer = "http://app.featurehub.localnet:8787";
+    fhScriptName += '?r=' + Math.random();
 }
 else if (location.hostname === 'localhost' || location.hostname === 'mbp-pks.local') {
     fhServer = 'http://mbp-pks.local:8787';
+    fhScriptName += '?r=' + Math.random();
 }
 
-let scriptLocation = fhServer + '/lib/v1/feature.js';
+let scriptLocation = fhServer + fhScriptName;
 
 const script = document.createElement('script');
 script.src = scriptLocation;
@@ -52,12 +55,32 @@ window.addEventListener('message', (event) => {
         oFeature.subscribeToFeatureStream(sClientId, (oData, mHeaders) => {
             console.log("Received feature message: ", oData);
             document.getElementById("message").value = JSON.stringify(oData);
+
+            if(oData.action === "SETUP_CALLBACK"){
+                setCharacter(oData.character);
+            }
+            else if(oData.action === "SET_CHARACTER_CALLBACK"){
+                setCharacter(oData.character);
+            }
         });
 
         oFeature.addEventListener("connect", () => {
-            oFeature.sendMessage("fhtp://client/" + sClientId + "/vuplex/broadcast/setup", {});
+            oFeature.sendMessageToGameObject(sClientId, "menu_receiver", {
+                "action": "SETUP"
+            });
         });
 
         
     }
 });
+
+function setCharacter(sCharacter){
+    if(sCharacter === "male"){
+        document.getElementById("female-card").classList.remove("bg-primary", "text-light");
+        document.getElementById("male-card").classList.add("bg-primary", "text-light");
+    }
+    else if(sCharacter === "female"){
+        document.getElementById("female-card").classList.add("bg-primary", "text-light");
+        document.getElementById("male-card").classList.remove("bg-primary", "text-light");
+    }
+}

@@ -57,19 +57,27 @@
     <script>
             document.getElementById("send-btn").addEventListener("click", () => {
               
-              oFeature.sendMessage("fhtp://client/" + sClientId + "/vuplex/broadcast/randomroom", {});
+              oFeature.sendMessageToGameObject(sClientId, "menu_receiver", {
+                  action: "JOIN_RANDOM_ROOM"
+              });
            });
 
            document.getElementById("male-card").addEventListener("click", () => {
-              document.getElementById("female-card").classList.remove("bg-primary", "text-light");
-              document.getElementById("male-card").classList.add("bg-primary", "text-light");
-              oFeature.sendMessage("fhtp://client/" + sClientId + "/vuplex/broadcast/char", { character: "male" });
+              oFeature.sendMessageToGameObject(sClientId, "menu_receiver", { 
+                  action: "SET_CHARACTER",
+                  character: "male" 
+              });
            });
 
            document.getElementById("female-card").addEventListener("click", () => {
-            document.getElementById("female-card").classList.add("bg-primary", "text-light");
-              document.getElementById("male-card").classList.remove("bg-primary", "text-light");
-              oFeature.sendMessage("fhtp://client/" + sClientId + "/vuplex/broadcast/char", { character: "female" });
+              oFeature.sendMessageToGameObject(sClientId, "menu_receiver", { 
+                action: "SET_CHARACTER",
+                character: "female" 
+              });
+           });
+
+           window.addEventListener("error", (event) => {
+              alert(event.message);
            });
             
            console.log("Metaphone init.");
