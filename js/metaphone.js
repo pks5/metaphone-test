@@ -19,16 +19,19 @@ let fnConnect = function () {
     oFeature.connect(oServerInfo => {
         console.log("Connected to " + oServerInfo.webSocketUrl);
     });
+
+    
 };
 
-let scriptLocation = 'https://my.featurehub.net/lib/v1/feature.js';
-
+let fhServer = 'https://my.featurehub.net';
 if (location.hostname.indexOf('.localnet') !== -1) {
-    //  scriptLocation = 'http://app.featurehub.localnet:8787/lib/v1/fhub.js';
+    fhServer = "http://app.featurehub.localnet:8787";
+}
+else if (location.hostname === 'localhost' || location.hostname === 'mbp-pks.local') {
+    fhServer = 'http://mbp-pks.local:8787';
 }
 
-scriptLocation = 'http://mbp-pks.local:8787/lib/v1/feature.js';
-scriptLocation = 'http://app.featurehub.localnet:8787/lib/v1/feature.js';
+let scriptLocation = fhServer + '/lib/v1/feature.js';
 
 const script = document.createElement('script');
 script.src = scriptLocation;
@@ -37,6 +40,24 @@ document.body.appendChild(script);
 
 let sClientId;
 window.addEventListener('message', (event) => {
-    sClientId = event.data.message.clientId;
-    console.log('New clientId is: ' + sClientId);
+    
+    if(event.data.message.action === 'SET_CLIENT_ID'){
+        if(event.origin !== fhServer){
+            // throw new Error("Only messages from FeatureHub are allowed!");
+        }
+
+        sClientId = event.data.message.clientId;
+        console.log('New clientId is: ' + sClientId);
+
+        oFeature.subscribeToFeatureStream(sClientId, (oData, mHeaders) => {
+            console.log("Received feature message: ", oData);
+            document.getElementById("message").value = JSON.stringify(oData);
+        });
+
+        oFeature.addEventListener("connect", () => {
+            oFeature.sendMessage("fhtp://client/" + sClientId + "/vuplex/broadcast/setup", {});
+        });
+
+        
+    }
 });
