@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buttons &amp; Levers</title>
+  <!--
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.12.0/css/xterm.min.css">
+  -->
+  <link href="../shared/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../shared/css/fa-all.css" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/xterm.min.css">
+
+  <style>
+    body {
+      background-image: url('img/wallpaper.jpeg');
+      background-position: center;
+      background-size: cover;
+    }
+
+    .button-frame{
+      margin:10px;
+      border-radius: 50%;
+      background-color:gray;
+      width:120px;
+      height:120px;
+      padding:10px;
+      box-shadow: 0 0px 1px 1px rgba(0,0,0,.4);
+    }
+
+    .button{
+			background-image: -webkit-linear-gradient(top, #d70c2e, rgb(213, 9, 30));
+			background-image: linear-gradient(top, #d70c2e, rgb(213, 9, 30));
+			border-radius: 50%;
+      border:none;
+			box-shadow: 0 0px 1px 2px rgba(0,0,0,.4), 0px 10px 12px 0px rgba(0, 0, 0, .4), inset 0px 1px 1px 1px rgba(255,255,255,0.3), inset 0px -5px 1px 1px rgba(0,0,0,0.3);
+			display:inline-block;
+			position: relative;
+				
+			-webkit-transition: all .1s linear;
+			transition: all .1s linear;
+      text-align: center;
+
+      height: 120px;
+			width: 120px;	
+		}
+
+    .button-frame > .button{
+      width:100%;
+      height:100%;
+    }
+
+    .button.input{
+      cursor:not-allowed;
+    }
+
+		.button > i{
+			color:rgba(0,0,0,0.3);
+			font-size: 48px;
+			line-height: 48px;
+			text-decoration: none;
+      
+		}
+
+    
+
+		.button.active{
+			background-image: -webkit-linear-gradient(top, #ffa7b5, rgb(222, 143, 151));
+			background-image: linear-gradient(top, #ffa7b5, rgb(222, 143, 151));
+			box-shadow: 0px 0px 1px 2px rgba(0,0,0,.1), inset 0px 1px 1px 1px rgba(255,255,255,0.2), inset 0px -1px 1px 1px rgba(255,255,255,0.2), inset 0px 0px 5px 5px rgba(0,0,0,.1);
+		}
+
+    .button.active > i{
+      color:rgba(255,255,255,0.9);
+      text-shadow: 0px 0px 2px white;
+    }
+
+    .button.active:after{
+			color:#dbd2d2;
+			
+		}
+
+    #xterm-container{
+      height: 240px;
+      padding:4px;
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body class="h-100">
+
+  <div class="d-flex flex-column h-100">
+    <div class="flex-grow-1 p-2">
+      <div class="d-flex">
+        <div>
+          <div class="button-frame">
+            <button id="button_on_off_demo" class="button">
+              <i class="fa-solid fa-lightbulb"></i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="button-frame">
+            <button id="switch_demo" class="button">
+              <i class="fa-solid fa-star"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="xterm-container">
+      
+    </div>
+  </div>
+   <!--
+  <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@6.1.0/bundles/stomp.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.12.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.min.js"></script>
+  -->
+  <script src="../shared/js/xterm.min.js"></script>
+    <script src="../shared/js/xterm-addon-fit.min.js"></script>
+  <script src="../shared/js/stomp.umd.min.js"></script>
+  <script src="../shared/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/buttons-levers.js"></script>
+
+</body>
+
+</html>
