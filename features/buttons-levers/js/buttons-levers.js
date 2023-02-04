@@ -2,10 +2,10 @@ let fhServer = 'https://my.featurehub.net',
     fhScriptName = "/lib/v1/feature.js",
     kcAuthUrl = "https://id.featurehub.net/realms/master/protocol/openid-connect/auth";
     
-if (location.hostname === 'localhost' || location.hostname.indexOf('.local') !== -1) {
+if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.indexOf('.local') !== -1) {
     fhServer = 'http://mbp-pks.local:8787';
     fhScriptName += '?r=' + Math.random();
-    kcAuthUrl = "http://mbp-pks.local:8080/realms/master/protocol/openid-connect/auth";
+    kcAuthUrl = "http://mbp-pks.local:8282/realms/master/protocol/openid-connect/auth";
 }
 
 let oFeature,
@@ -31,32 +31,13 @@ fnConnect = function () {
     oFeature.connect(oServerInfo => {
         console.log("Connected to " + oServerInfo.webSocketUrl);
     });
-};
 
-
-
-let scriptLocation = fhServer + fhScriptName;
-
-const script = document.createElement('script');
-script.src = scriptLocation;
-script.addEventListener('load', fnConnect);
-document.body.appendChild(script);
-
-let sClientId;
-window.addEventListener('message', (event) => {
-    
-    if(event.data.message.action === 'SET_CLIENT_ID'){
-        if(event.origin !== fhServer){
-            // throw new Error("Only messages from FeatureHub are allowed!");
-        }
-
-        sClientId = event.data.message.clientId;
-        console.log('New clientId is: ' + sClientId);
-
-        oFeature.subscribeToFeatureStream(sClientId, (oData, mHeaders) => {
+    oFeature.addEventListener('ready', (event) => {
+        console.log("READY", event);
+        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
             console.log("Received feature message: ", oData);
             terminalLog("Received feature message: " + JSON.stringify(oData));
-
+    
             if(oData.action === "SETUP_CALLBACK"){
                 
             }
@@ -70,19 +51,28 @@ window.addEventListener('message', (event) => {
             }
             
         });
-
+    
         oFeature.addEventListener("connect", () => {
-            oFeature.sendMessageToGameObject(sClientId, "button_controller", {
+            oFeature.sendMessageToGameObject("button_controller", {
                 "action": "SETUP"
             });
         });
+    });
+    
+};
 
-        
-    }
-});
+
+
+let scriptLocation = fhServer + fhScriptName;
+
+const script = document.createElement('script');
+script.src = scriptLocation;
+script.addEventListener('load', fnConnect);
+document.body.appendChild(script);
+
 
 document.getElementById("button_on_off_demo").addEventListener("click", function(){
-    oFeature.sendMessageToGameObject(sClientId, "button_controller", {
+    oFeature.sendMessageToGameObject("button_controller", {
         action: "SET_STATE",
         gameObject: "button_on_off_demo",
         value: this.classList.contains("active") ? 0 : 0.75
@@ -90,7 +80,7 @@ document.getElementById("button_on_off_demo").addEventListener("click", function
 });
 
 document.getElementById("switch_demo").addEventListener("click", function(){
-    oFeature.sendMessageToGameObject(sClientId, "button_controller", {
+    oFeature.sendMessageToGameObject("button_controller", {
         action: "SET_STATE",
         gameObject: "switch_demo",
         value: this.classList.contains("active") ? 0 : 0.75

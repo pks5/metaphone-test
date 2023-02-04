@@ -5,7 +5,7 @@ let fhServer = 'https://my.featurehub.net',
 if (location.hostname === 'localhost' || location.hostname.indexOf('.local') !== -1) {
     fhServer = 'http://mbp-pks.local:8787';
     fhScriptName += '?r=' + Math.random();
-    kcAuthUrl = "http://mbp-pks.local:8080/realms/master/protocol/openid-connect/auth";
+    kcAuthUrl = "http://mbp-pks.local:8282/realms/master/protocol/openid-connect/auth";
 }
 
 let oFeature,
@@ -31,27 +31,10 @@ fnConnect = function () {
     oFeature.connect(oServerInfo => {
         console.log("Connected to " + oServerInfo.webSocketUrl);
     });
-};
 
-let scriptLocation = fhServer + fhScriptName;
-
-const script = document.createElement('script');
-script.src = scriptLocation;
-script.addEventListener('load', fnConnect);
-document.body.appendChild(script);
-
-let sClientId;
-window.addEventListener('message', (event) => {
-    
-    if(event.data.message.action === 'SET_CLIENT_ID'){
-        if(event.origin !== fhServer){
-            // throw new Error("Only messages from FeatureHub are allowed!");
-        }
-
-        sClientId = event.data.message.clientId;
-        console.log('New clientId is: ' + sClientId);
-
-        oFeature.subscribeToFeatureStream(sClientId, (oData, mHeaders) => {
+    oFeature.addEventListener("ready", (event) => {
+        console.log("READY", event);
+        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
             console.log("Received feature message: ", oData);
             terminalLog("Received message: " + JSON.stringify(oData));
 
@@ -64,20 +47,25 @@ window.addEventListener('message', (event) => {
         });
 
         oFeature.addEventListener("connect", () => {
-            oFeature.sendMessageToGameObject(sClientId, "menu_receiver", {
+            oFeature.sendMessageToGameObject("menu_receiver", {
                 "action": "SETUP"
             });
 
-            oFeature.sendMessageToGameObject(sClientId, "photon_controller", {
+            oFeature.sendMessageToGameObject("photon_controller", {
                 "action": "SETUP"
             });
 
             
         });
+    })
+};
 
-        
-    }
-});
+let scriptLocation = fhServer + fhScriptName;
+
+const script = document.createElement('script');
+script.src = scriptLocation;
+script.addEventListener('load', fnConnect);
+document.body.appendChild(script);
 
 function setCharacter(sCharacter){
     if(sCharacter === "male"){
@@ -91,14 +79,14 @@ function setCharacter(sCharacter){
 }
 
 document.getElementById("send-btn").addEventListener("click", () => {
-    oFeature.sendMessageToGameObject(sClientId, "photon_controller", {
+    oFeature.sendMessageToGameObject("photon_controller", {
         action: "JOIN_RANDOM_ROOM"
     });
 });
 
 document.getElementById("male-card").addEventListener("click", () => {
     terminalLog("Requesting changing character to male ...");
-    oFeature.sendMessageToGameObject(sClientId, "menu_receiver", { 
+    oFeature.sendMessageToGameObject("menu_receiver", { 
         action: "SET_CHARACTER",
         value: "male" 
     });
@@ -106,7 +94,7 @@ document.getElementById("male-card").addEventListener("click", () => {
 
 document.getElementById("female-card").addEventListener("click", () => {
     terminalLog("Requesting changing character to female ...");
-    oFeature.sendMessageToGameObject(sClientId, "menu_receiver", { 
+    oFeature.sendMessageToGameObject("menu_receiver", { 
         action: "SET_CHARACTER",
         value: "female" 
     });
