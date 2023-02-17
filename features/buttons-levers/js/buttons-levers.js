@@ -1,11 +1,9 @@
 let fhServer = 'https://my.featurehub.net',
-    fhScriptName = "/lib/v1/feature.js",
-    kcAuthUrl = "https://id.featurehub.net/realms/master/protocol/openid-connect/auth";
+    fhScriptName = "/lib/v1/feature.js";
     
 if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.indexOf('.local') !== -1) {
     fhServer = 'http://mbp-pks.local:8787';
     fhScriptName += '?r=' + Math.random();
-    kcAuthUrl = "http://mbp-pks.local:8282/realms/master/protocol/openid-connect/auth";
 }
 
 let oFeature,
@@ -14,8 +12,7 @@ fnConnect = function () {
     
     oFeature = new Feature({
         featureId: "io.himera.fh.feature.buttons_levers",
-        clientId: "metaphone-test",
-        authUrl: kcAuthUrl
+        clientId: "metaphone-test"
     });
 
     //TODO
