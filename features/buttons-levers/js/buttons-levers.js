@@ -15,20 +15,6 @@ fnConnect = function () {
         clientId: "metaphone-test"
     });
 
-    //TODO
-    oFeature.m_oSocketClient.addEventListener("socketClose", () => {
-        console.log("Feature Socket Disconnected.");
-    });
-
-    oFeature.addEventListener("connect", () => {
-        console.log("Feature Socket Connected.");
-    });
-
-    console.log("Connecting to FeatureHub ...");
-    oFeature.connect(oServerInfo => {
-        console.log("Connected to " + oServerInfo.webSocketUrl);
-    });
-
     oFeature.addEventListener('ready', (event) => {
         console.log("READY", event);
         oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
@@ -49,13 +35,12 @@ fnConnect = function () {
             
         });
     
-        oFeature.addEventListener("connect", () => {
-            oFeature.sendMessageToEnvScript("button_controller", "setup", {
-                "action": "SETUP"
-            });
+        oFeature.sendMessageToEnvScript("button_controller", "setup", {
+            "action": "SETUP"
         });
     });
     
+    oFeature.connect();
 };
 
 

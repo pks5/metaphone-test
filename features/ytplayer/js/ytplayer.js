@@ -40,46 +40,19 @@ fnConnect = function () {
         clientId: "metaphone-test"
     });
 
-    //TODO
-    oFeature.m_oSocketClient.addEventListener("socketClose", () => {
-        console.log("Feature Socket Disconnected.");
-    });
-
-    oFeature.addEventListener("connect", () => {
-        console.log("Feature Socket Connected.");
-    });
-
     oFeature.addEventListener("connect", () => {
         bConnected = true;
         initPlayer();
     });
 
-    console.log("Connecting to FeatureHub ...");
-    oFeature.connect(oServerInfo => {
-        console.log("Connected to " + oServerInfo.webSocketUrl);
+    oFeature.messageMapping("button_click", (oEvent) => {
+        const oVideo = VIDEOS[oEvent.body.gameObject];
+        if(oVideo){
+            oYtPlayer.loadVideoById(oVideo.videoId, 0, "large");
+        }
     });
 
-
-
-    oFeature.addEventListener("ready", (event) => {
-        console.log("READY", event);
-        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
-            console.log("Received feature message: ", oData);
-            console.log("Received message: " + JSON.stringify(oData));
-
-            if(oData.action === "CLICK"){
-                const oVideo = VIDEOS[oData.gameObject];
-                if(oVideo){
-                    oYtPlayer.loadVideoById(oVideo.videoId, 0, "large");
-                }
-                
-            }
-        });
-
-        
-    });
-
-    
+    oFeature.connect();
 },
 initPlayer = function(){
     if(!bYtPlayerReady || !bConnected){

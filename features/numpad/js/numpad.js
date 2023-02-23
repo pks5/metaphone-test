@@ -15,49 +15,23 @@ const elCodeInput = document.getElementById("code"),
 let oFeature,
     bError = false,
     iMessageTimeout,
-fnConnect = function () {
+    fnScriptLoad = function () {
     
     oFeature = new Feature({
         featureId: "net.metablet.fh.feature.numpad",
         clientId: "metaphone-test"
     });
 
-    //TODO
-    oFeature.m_oSocketClient.addEventListener("socketClose", () => {
-        console.log("Feature Socket Disconnected.");
+    oFeature.messageMapping("set_value", (oEvent) => {
+        setMessage(oEvent.body.value);
     });
 
-    oFeature.addEventListener("connect", () => {
-        console.log("Feature Socket Connected.");
-    });
-
-    console.log("Connecting to FeatureHub ...");
-    oFeature.connect(oServerInfo => {
-        console.log("Connected to " + oServerInfo.webSocketUrl);
-    });
-
-    oFeature.addEventListener("ready", (event) => {
-        console.log("READY", event);
-        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
-            console.log("Received feature message: ", oData);
-            console.log("Received message: " + JSON.stringify(oData));
-
-            if(oData.action === "ERROR"){
-                setMessage(oData.value);
-            }
-        });
-
-        oFeature.addEventListener("connect", () => {
-            
-
-            
-        });
-    })
+    oFeature.connect();
 };
 
 const script = document.createElement('script');
 script.src = fhServer + fhScriptName;
-script.addEventListener('load', fnConnect);
+script.addEventListener('load', fnScriptLoad);
 document.body.appendChild(script);
 
 function setMessage(sMessage){
@@ -78,7 +52,6 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     oSubmitTone.play();
     try{
         oFeature.sendMessageToEnvScript("door_controller", "open_close", { 
-            action: "OPEN_CLOSE",
             value: elCodeInput.value 
         });
         elCodeInput.value = "";

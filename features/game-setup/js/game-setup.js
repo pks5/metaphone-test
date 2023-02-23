@@ -7,57 +7,34 @@ if (location.hostname === 'localhost' || location.hostname.indexOf('.local') !==
 }
 
 let oFeature,
-fnConnect = function () {
+fnScriptLoad = function () {
     
     oFeature = new Feature({
         featureId: "net.featurehub.tp.sysf.metaworld",
         clientId: "metaphone-test"
     });
 
-    //TODO
-    oFeature.m_oSocketClient.addEventListener("socketClose", () => {
-        console.log("Feature Socket Disconnected.");
-    });
-
-    oFeature.addEventListener("connect", () => {
-        console.log("Feature Socket Connected.");
-        terminalLog("Feature Socket connected.");
-    });
-
-    console.log("Connecting to FeatureHub ...");
-    oFeature.connect(oServerInfo => {
-        console.log("Connected to " + oServerInfo.webSocketUrl);
+    oFeature.messageMapping("setup_callback", (oEvent) => {
+        //terminalLog("Message mapping: " + JSON.stringify(oEvent));
+        terminalLog("Received message: " + JSON.stringify(oEvent.body));
+        setCharacter(oEvent.body.value);
     });
 
     oFeature.addEventListener("ready", (event) => {
         console.log("READY", event);
-        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
-            console.log("Received feature message: ", oData);
-            terminalLog("Received message: " + JSON.stringify(oData));
-
-            if(oData.action === "SETUP_CALLBACK"){
-                setCharacter(oData.value);
-            }
-            else if(oData.action === "SET_CHARACTER_CALLBACK"){
-                setCharacter(oData.value);
-            }
-        });
-
-        
-
         oFeature.sendMessageToEnvScript("scene_controller", "setup", {
             "action": "SETUP"
         });
+    });
 
-        
-    })
+    oFeature.connect();
 };
 
 let scriptLocation = fhServer + fhScriptName;
 
 const script = document.createElement('script');
 script.src = scriptLocation;
-script.addEventListener('load', fnConnect);
+script.addEventListener('load', fnScriptLoad);
 document.body.appendChild(script);
 
 function setCharacter(sCharacter){
@@ -72,7 +49,7 @@ function setCharacter(sCharacter){
 }
 
 document.getElementById("send-btn").addEventListener("click", () => {
-    oFeature.sendMessageToEnvScript("scene_controller", "join_random_room", {
+    oFeature.sendMessageToEnvScript("scene_controller", "change_scene", {
         action: "JOIN_RANDOM_ROOM"
     });
 });
