@@ -18,9 +18,33 @@
       background-repeat: no-repeat;
     }
 
+    .row{
+      column-gap: 0.5rem;
+      margin-bottom:0.5rem;
+    }
     .col.btn{
       font-size:2rem;
+      padding:1rem;
+      border: solid 1px #333;
     }
+
+    @font-face
+    {
+    font-family: "Digital7"; 
+    src: local("Digital7"),
+    url("./fonts/digital-7.ttf")
+    format("TrueType")
+}
+
+#code{
+  font-family: 'Digital7';
+  font-size: 4rem;
+  color:greenyellow;
+  background-color:black;
+  text-align: center;
+  padding:0.5rem;
+  border-radius: 10px;
+}
 
   </style>
 </head>
@@ -33,28 +57,28 @@
 
       <div class="container-fluid">
         <div class="row">
-            <input class="text-center form-control-lg mb-2" id="code">
+            <input id="code">
         </div>
         <div class="row">
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="1">1</button>
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="2">2</button>
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="3">3</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="1">1</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="2">2</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="3">3</button>
             
         </div>
         <div class="row">
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="4">4</button>
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="5">5</button>
-            <button type="button" class="key-btn col btn btn-secondary py-5" data-key="6">6</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="4">4</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="5">5</button>
+            <button type="button" class="key-btn col btn btn-secondary" data-key="6">6</button>
         </div>
         <div class="row">
-          <button type="button" class="key-btn col btn btn-secondary py-5" data-key="7">7</button>
-          <button type="button" class="key-btn col btn btn-secondary py-5" data-key="8">8</button>
-          <button type="button" class="key-btn col btn btn-secondary py-5" data-key="9">9</button>
+          <button type="button" class="key-btn col btn btn-secondary" data-key="7">7</button>
+          <button type="button" class="key-btn col btn btn-secondary" data-key="8">8</button>
+          <button type="button" class="key-btn col btn btn-secondary" data-key="9">9</button>
         </div>
         <div class="row">
-          <button id="c-btn" type="button" class="col btn btn-secondary py-5">&lt;</button>
-          <button type="button" class="key-btn col btn btn-secondary py-5" data-key="0">0</button>
-          <button id="submit-btn" type="button" class="col btn btn-primary py-5" onclick="">Submit</button>
+          <button id="c-btn" type="button" class="col btn btn-danger">&lt;</button>
+          <button type="button" class="key-btn col btn btn-secondary" data-key="0">0</button>
+          <button id="submit-btn" type="button" class="col btn btn-success">OK</button>
         </div>
     </div>
       

@@ -43,17 +43,13 @@ fnConnect = function () {
             }
         });
 
-        oFeature.addEventListener("connect", () => {
-            oFeature.sendMessageToGameObject("menu_receiver", {
-                "action": "SETUP"
-            });
+        
 
-            oFeature.sendMessageToGameObject("photon_controller", {
-                "action": "SETUP"
-            });
-
-            
+        oFeature.sendMessageToEnvScript("scene_controller", "setup", {
+            "action": "SETUP"
         });
+
+        
     })
 };
 
@@ -76,14 +72,14 @@ function setCharacter(sCharacter){
 }
 
 document.getElementById("send-btn").addEventListener("click", () => {
-    oFeature.sendMessageToGameObject("photon_controller", {
+    oFeature.sendMessageToEnvScript("scene_controller", "join_random_room", {
         action: "JOIN_RANDOM_ROOM"
     });
 });
 
 document.getElementById("male-card").addEventListener("click", () => {
     terminalLog("Requesting changing character to male ...");
-    oFeature.sendMessageToGameObject("menu_receiver", { 
+    oFeature.sendMessageToEnvScript("menu_receiver", "set_character", { 
         action: "SET_CHARACTER",
         value: "male" 
     });
@@ -91,7 +87,7 @@ document.getElementById("male-card").addEventListener("click", () => {
 
 document.getElementById("female-card").addEventListener("click", () => {
     terminalLog("Requesting changing character to female ...");
-    oFeature.sendMessageToGameObject("menu_receiver", { 
+    oFeature.sendMessageToEnvScript("menu_receiver", "set_character", { 
         action: "SET_CHARACTER",
         value: "female" 
     });

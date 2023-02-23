@@ -50,7 +50,7 @@ fnConnect = function () {
         });
     
         oFeature.addEventListener("connect", () => {
-            oFeature.sendMessageToGameObject("button_controller", {
+            oFeature.sendMessageToEnvScript("button_controller", "setup", {
                 "action": "SETUP"
             });
         });
@@ -69,7 +69,7 @@ document.body.appendChild(script);
 
 
 document.getElementById("button_on_off_demo").addEventListener("click", function(){
-    oFeature.sendMessageToGameObject("button_controller", {
+    oFeature.sendMessageToEnvScript("button_controller", "set_state", {
         action: "SET_STATE",
         gameObject: "button_on_off_demo",
         value: this.classList.contains("active") ? 0 : 0.75
@@ -77,7 +77,7 @@ document.getElementById("button_on_off_demo").addEventListener("click", function
 });
 
 document.getElementById("switch_demo").addEventListener("click", function(){
-    oFeature.sendMessageToGameObject("button_controller", {
+    oFeature.sendMessageToEnvScript("button_controller", "set_state", {
         action: "SET_STATE",
         gameObject: "switch_demo",
         value: this.classList.contains("active") ? 0 : 0.75
