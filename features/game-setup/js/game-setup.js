@@ -22,9 +22,7 @@ fnScriptLoad = function () {
 
     oFeature.addEventListener("ready", (event) => {
         console.log("READY", event);
-        oFeature.sendMessageToEnvScript("scene_controller", "setup", {
-            "action": "SETUP"
-        });
+        oFeature.sendMessageToEnvScript("scene_controller", "setup");
     });
 
     oFeature.connect();

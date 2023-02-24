@@ -15,29 +15,18 @@ fnConnect = function () {
         clientId: "metaphone-test"
     });
 
+    oFeature.messageMapping("button_toggle", (oEvent) => {
+        const oData = oEvent.body;
+        if(oData.gameObject === "button_on_off_demo"){
+            document.getElementById("button_on_off_demo").classList.toggle("active", oData.value === "0.75");
+        }
+        else if(oData.gameObject === "switch_demo"){
+            document.getElementById("switch_demo").classList.toggle("active", oData.value === "0.75");
+        }
+    });
+
     oFeature.addEventListener('ready', (event) => {
-        console.log("READY", event);
-        oFeature.subscribeToFeatureStream(true, (oData, mHeaders) => {
-            console.log("Received feature message: ", oData);
-            terminalLog("Received feature message: " + JSON.stringify(oData));
-    
-            if(oData.action === "SETUP_CALLBACK"){
-                
-            }
-            else if(oData.action === "TOGGLE"){
-                if(oData.gameObject === "button_on_off_demo"){
-                    document.getElementById("button_on_off_demo").classList.toggle("active", oData.value === "0.75");
-                }
-                else if(oData.gameObject === "switch_demo"){
-                    document.getElementById("switch_demo").classList.toggle("active", oData.value === "0.75");
-                }
-            }
-            
-        });
-    
-        oFeature.sendMessageToEnvScript("button_controller", "setup", {
-            "action": "SETUP"
-        });
+        oFeature.sendMessageToEnvScript("button_controller", "setup");
     });
     
     oFeature.connect();
