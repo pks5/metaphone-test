@@ -2,7 +2,15 @@
 let fhServer = 'https://my.featurehub.net',
     fhScriptName = "/lib/v1/feature.js";
     
-if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.indexOf('.local') !== -1) {
+if (location.hostname === 'feature.metablet.localnet') {
+    fhServer = 'http://app.featurehub.localnet:8787';
+    fhScriptName += '?r=' + Math.random();
+}
+else if (location.hostname === 'mbp-pks.fritz.box') {
+    fhServer = 'http://mbp-pks.fritz.box:8787';
+    fhScriptName += '?r=' + Math.random();
+}
+else if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.indexOf('.local') !== -1) {
     fhServer = 'http://mbp-pks.local:8787';
     fhScriptName += '?r=' + Math.random();
 }

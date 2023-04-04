@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.12.0/css/xterm.min.css">
   -->
   <link href="../shared/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../shared/css/fa-all.css" rel="stylesheet">
+  <!--<link href="../shared/css/fa-all.css" rel="stylesheet">-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
   <link rel="stylesheet" href="../shared/css/xterm.min.css">
 
   <style>
@@ -84,6 +85,12 @@
 			
 		}
 
+    #coins-counter{
+      font-size: 20px;
+      color:white;
+      font-weight: bold;
+    }
+
     #xterm-container{
       height: 240px;
       padding:4px;
@@ -100,7 +107,7 @@
         <div>
           <div class="button-frame">
             <button id="button_on_off_demo" class="button">
-              <i class="fa-solid fa-bell"></i>
+              <span id="coins-counter">0</span>
             </button>
           </div>
         </div>
