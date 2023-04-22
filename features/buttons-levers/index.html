@@ -27,8 +27,8 @@
       margin:10px;
       border-radius: 50%;
       background-color:gray;
-      width:120px;
-      height:120px;
+      width:100px;
+      height:100px;
       padding:10px;
       box-shadow: 0 0px 1px 1px rgba(0,0,0,.4);
     }
@@ -46,8 +46,8 @@
 			transition: all .1s linear;
       text-align: center;
 
-      height: 120px;
-			width: 120px;	
+      height: 80px;
+			width: 80px;	
 		}
 
     .button-frame > .button{
@@ -85,10 +85,18 @@
 			
 		}
 
-    #coins-counter{
-      font-size: 20px;
+    .coins{
       color:white;
+      font-size: 4rem;
+      
       font-weight: bold;
+      border-radius: 20px;
+      background-color:#252525;
+      padding:8px 16px;
+    }
+
+    #coins-counter{
+      
     }
 
     #xterm-container{
@@ -103,21 +111,33 @@
 
   <div class="d-flex flex-column h-100">
     <div class="flex-grow-1 p-2">
-      <div class="d-flex">
+      <div class="d-flex justify-content-between">
         <div>
           <div class="button-frame">
-            <button id="button_on_off_demo" class="button">
-              <span id="coins-counter">0</span>
+            <button id="button-bell" class="button">
+              <i class="fa-solid fa-bell"></i>
             </button>
           </div>
         </div>
         <div>
           <div class="button-frame">
-            <button id="switch_demo" class="button">
+            <button id="button-star" class="button">
               <i class="fa-solid fa-star"></i>
             </button>
           </div>
         </div>
+        <div>
+          <div class="button-frame">
+            <button id="button-bomb" class="button">
+              <i class="fa-solid fa-bomb"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coins">
+        <i class="fa-solid fa-coins"></i>
+        <span id="coins-counter">0</span>
       </div>
     </div>
     <div id="xterm-container">
